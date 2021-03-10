@@ -1,12 +1,13 @@
-# cWAS
-beta version
+# cWAS: A Statistical Framework to Identify Cell Types Whose Genetically Regulated Proportions are Associated with Complex Diseases 
 
 
-_1: COPD
 
-otherwise: whole blood or breast cancer
 
-## beta_software
-1. match the genotype in reference genotype file, gene expression imputation models and GWAS summary stats
-2. calculate \hat\beta %*% S
-3. test
+## cWAS
+cWAS software
+
+
+## simulations
+Code for generating simulated phenotypes and also GWAS summary stats
+
+## 

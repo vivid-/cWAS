@@ -10,6 +10,7 @@ We are using `R version 3.5.0`  here.
 For R, `genio` and `MASS` library are required, which can be installed via 
 ``` R
 > install.packages("genio")
+> install.packages("R.utils")
 ```
 ### Install the cWAS library from source
 ```R

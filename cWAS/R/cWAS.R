@@ -135,7 +135,7 @@ cWAS <- function(gene_df_f,weight_f,r2_f,
 #'library("MASS")
 #'
 cWAS_test <- function(ref_geno_f,S_f,Z_f,
-                      betaS_f,out_f){
+                      betaS_f,out_f,permute=FALSE,n_permute=1e6){
   library(genio)
   # assuming all data (expr_beta, ref_geno, Z and S) are all matched
   # read signatrue matrix in the corresponding tissue
@@ -216,6 +216,35 @@ cWAS_test <- function(ref_geno_f,S_f,Z_f,
 
   #bim_inter <- bim[match(inter_iden,bim_iden),]
   #snp_cell <- data.frame(rsid=bim_inter$id,ref=bim_inter$ref,alt=bim_inter$alt)
+  
+                     
+  if(permute){
+    permute_result <- data.frame()
+    reps = n_permute
+    xm = gwas_beta[,"Z"]
+    k = length(xm)
+    gwas_beta_permutes=unique(t(sapply(1:reps, function(x) sample(xm, k))))
+    gwas_beta_permutes <- as.matrix(gwas_beta_permutes)
+    cells <- signature[,1]
+    z_permutes <- list()
+    z_trues <- list()
+                                       
+    permute_ps <- rep(NA,ncol(A))
+    for(i in 1:ncol(A)){
+      M_geno_se <- as.vector(M[i,]) * geno_se
+      tmp_1 <- sweep(gwas_beta_permutes, MARGIN=2, as.vector(M_geno_se), `*`)
+      z <- rowSums(tmp_1)/frac_se[i]
+      mu_permute <- mean(z,na.rm=T)
+      sd_permute <- sd(z,na.rm=T)
+    
+      assoc_tmp <- assoc_df[which(assoc_df$cell == cells[i]),]
+      t_stat <- (assoc_tmp$z-mu_permute)/sd_permute
+      p_stat <- 2*(1-pnorm(abs(t_stat)))
+      permute_ps[which(assoc_df$cell == cells[i])]  = p_stat
+    }
+    assoc_df$permute_p <- permute_ps
+  }
+                                       
   assoc_df_sig <- assoc_df[assoc_df$p <0.05/nrow(assoc_df),]
   ind_sig <- which(assoc_df$p <0.05/nrow(assoc_df))
   assoc_df <- assoc_df[order(assoc_df$p),]

@@ -3,7 +3,7 @@
 \title{cWAS:A Statistical Framework to Identify Cell Types Whose Genetically Regulated Proportions are Associated with Complex Diseases}
 \usage{
 cWAS(gene_df_f,weight_f,r2_f,signature_f, gwas_f,ref_geno_f,output_f)
-cWAS_test(ref_geno_f,S_f,Z_f,betaS_f,out_f)
+cWAS_test(ref_geno_f,S_f,Z_f,betaS_f,out_f,permute,n_permute)
 }
 
 \arguments{

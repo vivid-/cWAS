@@ -18,6 +18,8 @@ cWAS_test(ref_geno_f,S_f,Z_f,betaS_f,out_f)
 \item{Z_f}{file location for GWAS summary stats from the output of cWAS()}
 \item{betaS_f}{file location for betaS from the output of cWAS()}
 \item{out_f}{file location for output association test results}
+\item{permute}{logic variable indicating whether the permutation-like test should be conducted or not, the default input is FALSE}
+\item{n_permute}{the number of permutation times, the default input is 1e6}
 }
 \description{
 cWAS() is to match SNPs and genes in imputation weights, signature gene expression matrix, reference genotype input and GWAS summary stats
@@ -28,5 +30,6 @@ cWAS(gene_df_f,weight_f,r2_f,signature_f, gwas_f,ref_geno_f,output_f)
 S_f = paste0(output_f,".signature")
 Z_f = paste0(output_f,".gwas")
 betaS_f = paste0(output_f,".betaS")
-cWAS_test(ref_geno_f,S_f,Z_f,betaS_f,out_f)
+# generating the permutation-like test results as well
+cWAS_test(ref_geno_f,S_f,Z_f,betaS_f,out_f,permute=TRUE,n_permute=1e6)
 }
